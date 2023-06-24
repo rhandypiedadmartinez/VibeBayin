@@ -21,12 +21,12 @@ public class DBWrite {
 
     private final Firestore db;
 
-    DBWrite(Firestore db) {
+    public DBWrite(Firestore db) {
         this.db = db;
     }
 
     /** Create cities collection and add sample documents. */
-    void prepareExamples() throws Exception {
+    public void prepareExamples() throws Exception {
         // [START firestore_data_get_dataset]
         CollectionReference cities = db.collection("cities");
         List<ApiFuture<WriteResult>> futures = new ArrayList<>();
