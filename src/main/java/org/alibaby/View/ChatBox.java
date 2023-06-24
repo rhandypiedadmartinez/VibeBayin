@@ -256,9 +256,15 @@ public class ChatBox {
             for(int i=0; i<messages.size(); i++){
                 if (currentUser == messages.get(i).to){
                     lblMessages.get(i).setFont(fixed);
-                } else if (currentUser == messages.get(i).from){
+                } else {
                     lblMessages.get(i).setFont(arial);
-                } 
+                }
+
+                if (currentUser == messages.get(i).from){
+                    lblMessages.get(i).setFont(arial);
+                } else {
+                    lblMessages.get(i).setFont(fixed);
+                }
             }
         } catch (Exception e){
 
