@@ -11,9 +11,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 import org.alibaby.Model.City;
 import org.alibaby.Model.Database;
@@ -24,25 +27,32 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.DocumentChange;
 import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.EventListener;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.FirestoreException;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.annotations.Nullable;
 
 public class ChatBox {
 
     ArrayList<JLabel> lblMessages;
-    ArrayList<Integer> lblUsers;
+    ArrayList<Message> messages;
     
     JPanel panel;
     Dimension dim;
     Font fixed; 
     Firestore db;
     JTextField txtFrom;
+    Font arial;
     
     public ChatBox () {
+        arial = new Font("Arial", Font.PLAIN, 14);
+        lblMessages = new ArrayList<>();
+        messages = new ArrayList<>();
         db = new Database().db;
         panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
@@ -50,6 +60,17 @@ public class ChatBox {
         JFrame frame = new JFrame("VibeBayin");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JScrollPane scrollPane = new JScrollPane(panel);
+
+    //     try {
+    //     ApiFuture<QuerySnapshot> future = db.collection("all_messages").get();
+    //     List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+    //     for (DocumentSnapshot document : documents) {
+    //     System.out.println(document.getId() + " => " + document.toObject(Message.class).message);
+    //     }
+    // }catch(Exception e){
+    //     e.printStackTrace();
+    // }
+
 
             try {
                 // WORKING PATTERN
@@ -102,10 +123,9 @@ public class ChatBox {
                     switch (dc.getType()) {
                         case ADDED:
                             System.out.println("New message: " + dc.getDocument().getData());
-                            addMessage(dc.getDocument().get("message", String.class), dc.getDocument().get("from", Integer.class) );
-                            Integer a = 0;
-                            System.out.println(a.getClass());
-
+                            Message msg2 = dc.getDocument().toObject(Message.class);
+                            addMessage(msg2);
+                           
                         break;
                         case MODIFIED:
                         System.out.println("Modified message: " + dc.getDocument().getData());
@@ -139,35 +159,24 @@ public class ChatBox {
                 });;
 
 
-                // txtFrom.getDocument().addDocumentListener(new DocumentListener() {
-                //     @Override
-                //     public void insertUpdate(DocumentEvent e) {
-                //     // updatefromLabels();   
-                //     }
+                txtFrom.getDocument().addDocumentListener(new DocumentListener() {
+                    @Override
+                    public void insertUpdate(DocumentEvent e) {
+                        updatefromLabels();   
+                    }
 
-                //     @Override
-                //     public void removeUpdate(DocumentEvent e) {
-                //     //updatefromLabels();
-                //     }
+                    @Override
+                    public void removeUpdate(DocumentEvent e) {
+                        updatefromLabels();
+                    }
 
-                //     @Override
-                //     public void changedUpdate(DocumentEvent e) {
+                    @Override
+                    public void changedUpdate(DocumentEvent e) {
                         
-                //     }
+                    }
 
-                //     public void updatefromLabels(){
-                //         try {
-
-                //             for(int i=0; i<lblUsers.size(); i++){
-                //                 if (Integer.valueOf(txtFrom.getText())==lblUsers.get(i))
-                //                     lblMessage.setFont(new Font("Arial", Font.PLAIN, 24));
-                //             }
-                //         } catch (Exception e){
-
-                //         }
- 
-                //     }
-                // });
+                    
+                });
 
                 txtMessage.getDocument().addDocumentListener(new DocumentListener() {
                     @Override
@@ -199,6 +208,7 @@ public class ChatBox {
                 panel.add(txtOutput);
                 
                 panel.add(btnSend);
+
                 scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
                 frame.getContentPane().add(scrollPane);
@@ -215,26 +225,44 @@ public class ChatBox {
 
         }
 
-    public void addMessage(String message, int user){
-        JLabel lblUser = new JLabel("User: " + user);
+    public void addMessage(Message message){
+        System.out.println(message.message);
+        JLabel lblUser = new JLabel("User: " + message.from);
         lblUser.setPreferredSize(dim);
-        
-        JLabel lblMessage = new JLabel(message);
-
-        if (user != Integer.valueOf(txtFrom.getText())){
-          lblMessage.setFont(fixed);
-        }
+        JLabel lblMessage = new JLabel(message.message);
 
         lblMessage.setPreferredSize(dim);
+
+        int currentUser = Integer.valueOf(txtFrom.getText());
+        if ((currentUser == message.from) || (currentUser == message.to)){
+            panel.add(lblUser);
+            panel.add(lblMessage);
+            lblMessages.add(lblMessage);
+            messages.add(message);
+            panel.revalidate();
+            panel.repaint();
+        } else {
         
-      //  lblMessages.add(lblMessage);
-      //  lblUsers.add(user);
-
-        panel.add(lblUser);
-        panel.add(lblMessage);
-        panel.revalidate();
-        panel.repaint();
+        }
+        
+        updatefromLabels();
     }
+    
+    public void updatefromLabels(){
+        try {
+            
+            int currentUser = Integer.valueOf(txtFrom.getText());
 
+            for(int i=0; i<messages.size(); i++){
+                if (currentUser == messages.get(i).to){
+                    lblMessages.get(i).setFont(fixed);
+                } else if (currentUser == messages.get(i).from){
+                    lblMessages.get(i).setFont(arial);
+                } 
+            }
+        } catch (Exception e){
+
+        }
+    }
 }
 
