@@ -96,7 +96,8 @@ public class ChatBox {
                 btnSend.setPreferredSize(dim);      
 
                 db.collection("all_messages")
-                .whereIn("from", Arrays.asList(new Integer[] {currentUser, kausap}))
+                .whereIn("from", Arrays.asList(new Integer[]{currentUser, kausap}))
+                .whereIn("to", Arrays.asList(new Integer[]{currentUser, kausap}))
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(
@@ -110,6 +111,7 @@ public class ChatBox {
                     switch (dc.getType()) {
                         case ADDED:
                             System.out.println("New message: " + dc.getDocument().getData());
+                            //if (message.)
                             Message msg2 = dc.getDocument().toObject(Message.class);
                             addMessage(msg2);
                            
@@ -136,9 +138,9 @@ public class ChatBox {
                         String messageBody = txtMessage.getText();
                         Timestamp timestamp = Timestamp.now();
                         Message message = new Message(from, to, messageBody, timestamp);
-                        ApiFuture<DocumentReference> future = db.collection("all_messages").add(message);
+                        ApiFuture<WriteResult> future = db.collection("all_messages").document(timestamp.toString()).set(message);
                         try {
-                            System.out.println("Added document with ID: " +  future.get().getId());
+                            //System.out.println("Added document with ID: " +  future.get().getId());
                         } catch (Exception e) {
                             e.printStackTrace();
                         };

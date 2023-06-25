@@ -22,7 +22,7 @@ public class Main {
         });
         
         Thread th_2 = new Thread(()-> {
-            ChatBox chatbox2 = new ChatBox(db, 0, 1);
+            ChatBox chatbox2 = new ChatBox(db, 2, currentUser);
         });
 
         th_1.start();
