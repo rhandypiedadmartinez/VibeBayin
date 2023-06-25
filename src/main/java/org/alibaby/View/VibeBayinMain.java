@@ -54,7 +54,7 @@ public class VibeBayinMain extends JFrame {
 
         
 
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 600);
         setLayout(new BorderLayout());
 
