@@ -47,11 +47,13 @@ public class ChatBox {
     Dimension dim;
     Font fixed; 
     Firestore db;
-    JTextField txtFrom;
+    JLabel txtFrom;
     Font arial;
     BaybayinUtil bUtil;
 
-    public ChatBox () {
+    public ChatBox (Firestore db, int currentUser, int kausap) {
+        this.db = db;
+
         arial = new Font("Arial", Font.PLAIN, 14);
 
         bUtil = new BaybayinUtil();
@@ -59,76 +61,26 @@ public class ChatBox {
 
         lblMessages = new ArrayList<>();
         messages = new ArrayList<>();
-        db = new Database().db;
         panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
  
         JFrame frame = new JFrame("VibeBayin");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JScrollPane scrollPane = new JScrollPane(panel);
-            
-        // URI path = null;
-
-        // try {
-        //     path = Thread.currentThread().getContextClassLoader().getResource("TintangBaybayin.otf").toURI();
-        // } catch (URISyntaxException e) {
-        //     // TODO Auto-generated catch block
-        //     e.printStackTrace();
-        // }
-        
-        // try {
-        //     File myFontFile = new File(path);
-        //     fixed = Font.createFont(Font.TRUETYPE_FONT, myFontFile);
-        // } catch (FontFormatException e) {
-        //     // TODO Auto-generated catch block
-        //     e.printStackTrace();
-        // } catch (IOException e) {
-        //     // TODO Auto-generated catch block
-        //     e.printStackTrace();
-        // }
 
         GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(fixed);
-        // Map attributes = fixed.getAttributes();
-        // attributes.put(TextAttribute.SIZE, 24   );
-        // attributes.put(TextAttribute.LIGATURES, TextAttribute.LIGATURES_ON);
-        // fixed = fixed.deriveFont(attributes);
-
-        
-    //     try {
-    //     ApiFuture<QuerySnapshot> future = db.collection("all_messages").get();
-    //     List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-    //     for (DocumentSnapshot document : documents) {
-    //     System.out.println(document.getId() + " => " + document.toObject(Message.class).message);
-    //     }
-    // }catch(Exception e){
-    //     e.printStackTrace();
-    // }
-
+    
 
             try {
-                // WORKING PATTERN
-                //URI path = Thread.currentThread().getContextClassLoader().getResource("TintangBaybayin.otf").toURI();
-                        
-                //File myFontFile = new File(path);
-
-                //fixed = Font.createFont(Font.TRUETYPE_FONT, myFontFile);
-                
-                //Map attributes = fixed.getAttributes();
-                //attributes.put(TextAttribute.SIZE, 24   );
-                //attributes.put(TextAttribute.LIGATURES, TextAttribute.LIGATURES_ON);
-                //fixed = fixed.deriveFont(attributes);
-
-                dim = new Dimension(420,25);
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setSize(300, 690);
-                //panel.setLayout(new FlowLayout());
-
+                dim = new Dimension(200, 30);
+                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                frame.setSize(400, 800);
                 JLabel lblFrom = new JLabel("From :");
-                txtFrom = new JTextField("0");
+                txtFrom = new JLabel(String.valueOf(currentUser));
                 txtFrom.setPreferredSize(dim);
                 
                 JLabel lblTo = new JLabel("To:");
-                JTextField txtTo = new JTextField("1");
+                JLabel txtTo = new JLabel(String.valueOf(kausap));
                 txtTo.setPreferredSize(dim);
 
                 JLabel lblMessage = new JLabel("Input:");
@@ -144,6 +96,7 @@ public class ChatBox {
                 btnSend.setPreferredSize(dim);      
 
                 db.collection("all_messages")
+                .whereIn("from", Arrays.asList(new Integer[] {currentUser, kausap}))
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                 @Override
                 public void onEvent(
@@ -193,24 +146,24 @@ public class ChatBox {
                 });;
 
 
-                txtFrom.getDocument().addDocumentListener(new DocumentListener() {
-                    @Override
-                    public void insertUpdate(DocumentEvent e) {
-                        updatefromLabels();   
-                    }
+                // txtTo.getDocument().addDocumentListener(new DocumentListener() {
+                //     @Override
+                //     public void insertUpdate(DocumentEvent e) {
+                //         updatefromLabels();   
+                //     }
 
-                    @Override
-                    public void removeUpdate(DocumentEvent e) {
-                        updatefromLabels();
-                    }
+                //     @Override
+                //     public void removeUpdate(DocumentEvent e) {
+                //         updatefromLabels();
+                //     }
 
-                    @Override
-                    public void changedUpdate(DocumentEvent e) {
+                //     @Override
+                //     public void changedUpdate(DocumentEvent e) {
                         
-                    }
+                //     }
 
                     
-                });
+                // });
 
                 txtMessage.getDocument().addDocumentListener(new DocumentListener() {
                     @Override
@@ -218,7 +171,6 @@ public class ChatBox {
                         txtOutput.setText(bUtil.translate(txtMessage.getText()));
 
                         String message = txtMessage.getText();
-                     //   addMessage(message);
                     }
 
                     @Override

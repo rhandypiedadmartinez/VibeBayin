@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.URI;
 
-import org.alibaby.Controller.DBWrite;
+import org.alibaby.Playground.DBWrite;
 
 public class Database {
     public Firestore db;
