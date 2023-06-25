@@ -1,5 +1,8 @@
 package org.alibaby.Controller.Utilities;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class BaybayinUtil {
     public static String transformBaybayin(String input) {
         input = input.toLowerCase();

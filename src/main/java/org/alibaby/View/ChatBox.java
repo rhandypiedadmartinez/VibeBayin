@@ -74,7 +74,7 @@ public class ChatBox {
 
             try {
                 // WORKING PATTERN
-                URI path = Thread.currentThread().getContextClassLoader().getResource("BayBayinNiwangUno.otf").toURI();
+                URI path = Thread.currentThread().getContextClassLoader().getResource("TagDoc93.ttf").toURI();
                         
                 File myFontFile = new File(path);
                 fixed = Font.createFont(Font.TRUETYPE_FONT, myFontFile);
