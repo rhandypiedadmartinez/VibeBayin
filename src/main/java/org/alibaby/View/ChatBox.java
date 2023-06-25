@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import org.alibaby.Controller.Utilities.BaybayinUtil;
 import org.alibaby.Model.City;
 import org.alibaby.Model.Database;
 import org.alibaby.Model.Message;
@@ -48,9 +49,14 @@ public class ChatBox {
     Firestore db;
     JTextField txtFrom;
     Font arial;
-    
+    BaybayinUtil bUtil;
+
     public ChatBox () {
         arial = new Font("Arial", Font.PLAIN, 14);
+
+        bUtil = new BaybayinUtil();
+        fixed = bUtil.fixed;
+
         lblMessages = new ArrayList<>();
         messages = new ArrayList<>();
         db = new Database().db;
@@ -60,7 +66,34 @@ public class ChatBox {
         JFrame frame = new JFrame("VibeBayin");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JScrollPane scrollPane = new JScrollPane(panel);
+            
+        // URI path = null;
 
+        // try {
+        //     path = Thread.currentThread().getContextClassLoader().getResource("TintangBaybayin.otf").toURI();
+        // } catch (URISyntaxException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // }
+        
+        // try {
+        //     File myFontFile = new File(path);
+        //     fixed = Font.createFont(Font.TRUETYPE_FONT, myFontFile);
+        // } catch (FontFormatException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // } catch (IOException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // }
+
+        GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(fixed);
+        // Map attributes = fixed.getAttributes();
+        // attributes.put(TextAttribute.SIZE, 24   );
+        // attributes.put(TextAttribute.LIGATURES, TextAttribute.LIGATURES_ON);
+        // fixed = fixed.deriveFont(attributes);
+
+        
     //     try {
     //     ApiFuture<QuerySnapshot> future = db.collection("all_messages").get();
     //     List<QueryDocumentSnapshot> documents = future.get().getDocuments();
@@ -74,15 +107,16 @@ public class ChatBox {
 
             try {
                 // WORKING PATTERN
-                URI path = Thread.currentThread().getContextClassLoader().getResource("TagDoc93.ttf").toURI();
+                //URI path = Thread.currentThread().getContextClassLoader().getResource("TintangBaybayin.otf").toURI();
                         
-                File myFontFile = new File(path);
-                fixed = Font.createFont(Font.TRUETYPE_FONT, myFontFile);
+                //File myFontFile = new File(path);
+
+                //fixed = Font.createFont(Font.TRUETYPE_FONT, myFontFile);
                 
-                Map attributes = fixed.getAttributes();
-                attributes.put(TextAttribute.SIZE, 24   );
-                attributes.put(TextAttribute.LIGATURES, TextAttribute.LIGATURES_ON);
-                fixed = fixed.deriveFont(attributes);
+                //Map attributes = fixed.getAttributes();
+                //attributes.put(TextAttribute.SIZE, 24   );
+                //attributes.put(TextAttribute.LIGATURES, TextAttribute.LIGATURES_ON);
+                //fixed = fixed.deriveFont(attributes);
 
                 dim = new Dimension(420,25);
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -102,7 +136,7 @@ public class ChatBox {
                 txtMessage.setPreferredSize(dim);
 
                 JLabel lblOutput = new JLabel("Output:");
-                JTextField txtOutput = new JTextField("1");
+                JTextField txtOutput = new JTextField("");
                 txtOutput.setPreferredSize(dim);
                 txtOutput.setFont(fixed);
 
@@ -181,14 +215,16 @@ public class ChatBox {
                 txtMessage.getDocument().addDocumentListener(new DocumentListener() {
                     @Override
                     public void insertUpdate(DocumentEvent e) {
-                        txtOutput.setText(txtMessage.getText());
+                        txtOutput.setText(bUtil.translate(txtMessage.getText()));
+
                         String message = txtMessage.getText();
                      //   addMessage(message);
                     }
 
                     @Override
                     public void removeUpdate(DocumentEvent e) {
-                        txtOutput.setText(txtMessage.getText());
+                        txtOutput.setText(bUtil.translate(txtMessage.getText()));
+
                         String message = txtMessage.getText();
                     }
 
@@ -216,11 +252,9 @@ public class ChatBox {
                 frame.setVisible(true);
 
 
-            } catch (FontFormatException | IOException e) {
-                e.printStackTrace();
-            } catch (URISyntaxException e1) {
+            } catch (Exception e1) {
                 e1.printStackTrace();
-            }
+            } 
 
 
         }
@@ -255,14 +289,18 @@ public class ChatBox {
 
             for(int i=0; i<messages.size(); i++){
                 if (currentUser == messages.get(i).to){
+                    lblMessages.get(i).setText(bUtil.translate(messages.get(i).message));
                     lblMessages.get(i).setFont(fixed);
                 } else {
+                    lblMessages.get(i).setText(messages.get(i).message);
                     lblMessages.get(i).setFont(arial);
                 }
 
                 if (currentUser == messages.get(i).from){
+                    lblMessages.get(i).setText(messages.get(i).message);
                     lblMessages.get(i).setFont(arial);
                 } else {
+                    lblMessages.get(i).setText(bUtil.translate(messages.get(i).message));
                     lblMessages.get(i).setFont(fixed);
                 }
             }
