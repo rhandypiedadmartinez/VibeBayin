@@ -1,4 +1,4 @@
-package org.alibaby.View;
+package org.alibaby.Playground;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;

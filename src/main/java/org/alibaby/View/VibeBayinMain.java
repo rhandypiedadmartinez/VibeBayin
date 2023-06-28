@@ -2,7 +2,9 @@ package org.alibaby.View;
 
 import javax.swing.*;
 
+import org.alibaby.Controller.Utilities.FriendsUtil;
 import org.alibaby.Model.Database;
+import org.alibaby.Model.Kislap;
 import org.alibaby.View.ChatBoxPane;
 
 import com.google.cloud.firestore.Firestore;
@@ -13,11 +15,10 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 public class VibeBayinMain extends JFrame {
-    public ArrayList<JScrollPane> chatboxes;
+    public HashMap<Integer, JScrollPane> chatboxes;
     public ArrayList<Thread> threads;
     private Map<String, JTextArea> chatPanes;
     private JTabbedPane tabbedPane;
@@ -27,36 +28,10 @@ public class VibeBayinMain extends JFrame {
     
     public VibeBayinMain(Firestore db, int currentUser) {
         setTitle("VibeBayin App of USER: " + currentUser);
-        friends = new ArrayList<>();
-        chatboxes = new ArrayList<>();
-        this.db = db;
-        this.currentUser = currentUser;
-        threads = new ArrayList<>();
-
-        for(int i=0; i<=3; i++){
-
-            if (currentUser==i){
-                continue;
-            }
-            
-            int finalI = i;
-            friends.add(finalI);
-
-            threads.add(new Thread(()->{
-                ChatBoxPane chatBoxPane = new ChatBoxPane(db, currentUser, finalI);
-                chatboxes.add(chatBoxPane.scrollPane);
-            }));
-
-            threads.get(threads.size()-1).start();
-            
-        }
-
-
-        
-
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 600);
         setLayout(new BorderLayout());
+
 
         // Create the sidebar panel
         JPanel sidebarPanel = new JPanel();
@@ -65,27 +40,78 @@ public class VibeBayinMain extends JFrame {
         sidebarPanel.setLayout(new GridLayout(0, 1));
 
         // Create friend panels
-        JPanel friendPanel1 = createFriendPanel("Friend " + friends.get(0), loadImage("friend1.jpg"));
-        JPanel friendPanel2 = createFriendPanel("Friend " + friends.get(1), loadImage("friend2.jpg"));
-        JPanel friendPanel3 = createFriendPanel("Friend " + friends.get(2), loadImage("friend3.jpg"));
+        ArrayList<JPanel> friendPanels = new ArrayList<>();
 
-        // Add friend panels to the sidebar
-        sidebarPanel.add(friendPanel1);
-        sidebarPanel.add(friendPanel2);
-        sidebarPanel.add(friendPanel3);
+        this.db = db;
+        this.currentUser = currentUser;
+        
+        Kislap kislap = new Kislap(db, currentUser);
+        FriendsUtil friendsUtil = new FriendsUtil(db, currentUser);
+        friends = friendsUtil.friendsList;
+        chatboxes = new HashMap<>();
 
+        Thread th_1 = new Thread(()-> {
+            for(int i=0; i<friends.size()/2; i++){
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                
+                int friendID = friends.get(i);
+                ChatBoxPane chatBoxPane = new ChatBoxPane(db, currentUser, friendID);
+                chatboxes.put(friendID , chatBoxPane.scrollPane);
+                JPanel friendPanel = createFriendPanel("Friend " + friendID, loadImage("friend1.jpg"));
+                friendPanel.addMouseListener(new FriendPanelMouseListener("Friend " + friends.get(i),  friends.get(i)));
+                sidebarPanel.add(friendPanel);
+            }
+        });
+
+        Thread th_2 = new Thread(()-> {
+            for(int i=friends.size()/2; i<friends.size(); i++){
+                try {
+                    Thread.sleep(5);
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                
+                int friendID = friends.get(i);
+                ChatBoxPane chatBoxPane = new ChatBoxPane(db, currentUser, friendID);
+                chatboxes.put(friendID , chatBoxPane.scrollPane);
+                JPanel friendPanel = createFriendPanel("Friend " + friendID, loadImage("friend1.jpg"));
+                friendPanel.addMouseListener(new FriendPanelMouseListener("Friend " + friends.get(i),  friends.get(i)));
+
+                sidebarPanel.add(friendPanel);
+            }
+        });
+
+        th_1.start();
+        th_2.start();
+
+
+        try {
+
+            th_2.join();
+            th_1.join();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
         // Create the chatbox panel using JTabbedPane
         tabbedPane = new JTabbedPane();
         chatPanes = new HashMap<>();
 
-        // Add mouse listener to friend panels
-        friendPanel1.addMouseListener(new FriendPanelMouseListener("Friend " + friends.get(0)));
-        friendPanel2.addMouseListener(new FriendPanelMouseListener("Friend " + friends.get(1)));
-        friendPanel3.addMouseListener(new FriendPanelMouseListener("Friend " + friends.get(2)));
-
         // Add the sidebar and tabbed pane to the main frame
         add(sidebarPanel, BorderLayout.WEST);
         add(tabbedPane, BorderLayout.CENTER);
+            
+
+        
+
+        
     }
 
     private JPanel createFriendPanel(String friendName, Image image) {
@@ -123,9 +149,11 @@ public class VibeBayinMain extends JFrame {
 
     private class FriendPanelMouseListener extends MouseAdapter {
         private String friendName;
+        private int friendID;
 
-        public FriendPanelMouseListener(String friendName) {
+        public FriendPanelMouseListener(String friendName, int friendID) {
             this.friendName = friendName;
+            this.friendID = friendID;
         }
 
         @Override
@@ -134,11 +162,10 @@ public class VibeBayinMain extends JFrame {
                 int index = tabbedPane.indexOfTab(friendName);
                 tabbedPane.setSelectedIndex(index);
             } else {
-                if (chatPanes.size() < 3) {
+                if (chatPanes.size() <= 4) {
                     JTextArea chatTextArea = new JTextArea();
-                    //JScrollPane chatScrollPane = new JScrollPane(chatTextArea);
-                    int ID = Integer.valueOf(this.friendName.replace("Friend","").trim());
-                    tabbedPane.addTab(friendName, chatboxes.get(ID));
+
+                    tabbedPane.addTab(friendName, chatboxes.get(this.friendID));
                     chatPanes.put(friendName, chatTextArea);
                 } else {
                     int selectedIndex = tabbedPane.getSelectedIndex();

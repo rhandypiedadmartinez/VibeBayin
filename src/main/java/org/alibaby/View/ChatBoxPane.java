@@ -221,6 +221,12 @@ public class ChatBoxPane {
             int currentUser = Integer.valueOf(txtFrom.getText());
 
             for(int i=0; i<messages.size(); i++){
+
+                if (0 == messages.get(i).from){
+                    lblMessages.get(i).setFont(arial);
+                    continue;
+                }
+
                 if (currentUser == messages.get(i).to){
                     lblMessages.get(i).setText(bUtil.translate(messages.get(i).message));
                     lblMessages.get(i).setFont(fixed);
@@ -236,6 +242,7 @@ public class ChatBoxPane {
                     lblMessages.get(i).setText(bUtil.translate(messages.get(i).message));
                     lblMessages.get(i).setFont(fixed);
                 }
+
             }
         } catch (Exception e){
 
