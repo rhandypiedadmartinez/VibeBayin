@@ -95,11 +95,7 @@ public class VibeBayinMain extends JFrame {
 
             th_2.join();
             th_1.join();
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        
+
         // Create the chatbox panel using JTabbedPane
         tabbedPane = new JTabbedPane();
         chatPanes = new HashMap<>();
@@ -107,6 +103,11 @@ public class VibeBayinMain extends JFrame {
         // Add the sidebar and tabbed pane to the main frame
         add(sidebarPanel, BorderLayout.WEST);
         add(tabbedPane, BorderLayout.CENTER);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
             
 
         
@@ -162,7 +163,7 @@ public class VibeBayinMain extends JFrame {
                 int index = tabbedPane.indexOfTab(friendName);
                 tabbedPane.setSelectedIndex(index);
             } else {
-                if (chatPanes.size() <= 4) {
+                if (chatPanes.size() < 3) {
                     JTextArea chatTextArea = new JTextArea();
 
                     tabbedPane.addTab(friendName, chatboxes.get(this.friendID));
@@ -171,11 +172,11 @@ public class VibeBayinMain extends JFrame {
                     int selectedIndex = tabbedPane.getSelectedIndex();
                     String currentFriend = tabbedPane.getTitleAt(selectedIndex);
                     chatPanes.remove(currentFriend);
-
                     JTextArea chatTextArea = new JTextArea();
                     JScrollPane chatScrollPane = new JScrollPane(chatTextArea);
-                    tabbedPane.setComponentAt(selectedIndex, chatScrollPane);
-                    tabbedPane.setTitleAt(selectedIndex, friendName);
+                    tabbedPane.setComponentAt(selectedIndex, chatboxes.get(this.friendID));
+                   // tabbedPane.addTab(friendName, chatboxes.get(this.friendID));
+                    tabbedPane.setTitleAt(selectedIndex, this.friendName);
                     chatPanes.put(friendName, chatTextArea);
                 }
             }
