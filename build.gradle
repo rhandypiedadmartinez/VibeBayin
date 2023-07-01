@@ -62,7 +62,7 @@ task runPlay(type: JavaExec) {
 }
 
 task runModel(type: JavaExec) {
-    main = 'org.alibaby.Playground.Test2'
+    main = 'org.alibaby.Model.User'
 }
 
 task runView(type: JavaExec) {
