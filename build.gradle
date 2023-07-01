@@ -16,7 +16,7 @@ javafx {
     modules = [ 'javafx.controls' , 'javafx.fxml', 'javafx.graphics']
 }
 
-mainClassName = "org.alibaby.View.Login"
+mainClassName = "org.alibaby.Controller.Main"
 
 dependencies {
     implementation('org.controlsfx:controlsfx:11.1.2')
@@ -35,8 +35,36 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     implementation 'com.google.firebase:firebase-admin:9.1.1'
+ //   implementation fileTree(dir:'libs/javafx-sdk-20.0.1/lib', include: ['*.jar'])
+    implementation 'org.openjfx:javafx-controls:20.0.1'
+    implementation 'org.openjfx:javafx-fxml:20.0.1'
+    implementation 'org.openjfx:javafx-graphics:20.0.1'
+    
+}
+
+
+tasks.withType(JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath    
+    mainClassName = "org.alibaby.Controller.Main"
+    jvmArgs = ['--module-path', classpath.asPath, '--add-modules', 'javafx.controls,javafx.fxml,javafx.graphics']
 }
 
 test {
     useJUnitPlatform()
+}
+
+task runController(type: JavaExec) {
+    main = 'org.alibaby.Controller.FriendsUtil'
+}
+
+task runPlay(type: JavaExec) {
+    main = 'org.alibaby.Controller.Main'
+}
+
+task runModel(type: JavaExec) {
+    main = 'org.alibaby.Playground.Test2'
+}
+
+task runView(type: JavaExec) {
+    main = 'org.alibaby.View.MultilineLabel'
 }

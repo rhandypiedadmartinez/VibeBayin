@@ -5,7 +5,7 @@ import javax.swing.*;
 import org.alibaby.Controller.Utilities.FriendsUtil;
 import org.alibaby.Model.Database;
 import org.alibaby.Model.Kislap;
-import org.alibaby.View.ChatBoxPane;
+import org.alibaby.View.OuterChatBoxPane;
 
 import com.google.cloud.firestore.Firestore;
 
@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class VibeBayinMain extends JFrame {
-    public HashMap<Integer, JScrollPane> chatboxes;
+    public HashMap<Integer, JPanel> chatboxes;
     public ArrayList<Thread> threads;
     private Map<String, JTextArea> chatPanes;
     private JTabbedPane tabbedPane;
@@ -29,13 +29,13 @@ public class VibeBayinMain extends JFrame {
     public VibeBayinMain(Firestore db, int currentUser) {
         setTitle("VibeBayin App of USER: " + currentUser);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(800, 600);
+        setSize(700, 700);
         setLayout(new BorderLayout());
 
 
         // Create the sidebar panel
         JPanel sidebarPanel = new JPanel();
-        sidebarPanel.setPreferredSize(new Dimension(200, 600));
+        sidebarPanel.setPreferredSize(new Dimension(150, 550));
         sidebarPanel.setBackground(Color.LIGHT_GRAY);
         sidebarPanel.setLayout(new GridLayout(0, 1));
 
@@ -60,8 +60,8 @@ public class VibeBayinMain extends JFrame {
                 }
                 
                 int friendID = friends.get(i);
-                ChatBoxPane chatBoxPane = new ChatBoxPane(db, currentUser, friendID);
-                chatboxes.put(friendID , chatBoxPane.scrollPane);
+                OuterChatBoxPane chatBoxPane = new OuterChatBoxPane(db, currentUser, friendID);
+                chatboxes.put(friendID , chatBoxPane.panel);
                 JPanel friendPanel = createFriendPanel("Friend " + friendID, loadImage("friend1.jpg"));
                 friendPanel.addMouseListener(new FriendPanelMouseListener("Friend " + friends.get(i),  friends.get(i)));
                 sidebarPanel.add(friendPanel);
@@ -78,8 +78,8 @@ public class VibeBayinMain extends JFrame {
                 }
                 
                 int friendID = friends.get(i);
-                ChatBoxPane chatBoxPane = new ChatBoxPane(db, currentUser, friendID);
-                chatboxes.put(friendID , chatBoxPane.scrollPane);
+                OuterChatBoxPane chatBoxPane = new OuterChatBoxPane(db, currentUser, friendID);
+                chatboxes.put(friendID , chatBoxPane.panel);
                 JPanel friendPanel = createFriendPanel("Friend " + friendID, loadImage("friend1.jpg"));
                 friendPanel.addMouseListener(new FriendPanelMouseListener("Friend " + friends.get(i),  friends.get(i)));
 

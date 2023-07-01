@@ -20,14 +20,15 @@ public class Main {
         Thread th_1 = new Thread(()-> {
             VibeBayinMain vb = new VibeBayinMain(db, currentUser);
             vb.setVisible(true);
+
         });
         
-        // // OPEN ACCOUNT ID=1 VB ACCOUNT
-        // Thread th_2 = new Thread(()-> {
-        //     VibeBayinMain vb = new VibeBayinMain(db, 1);
-        //     vb.setVisible(true);
+        // OPEN ACCOUNT ID=1 VB ACCOUNT
+        Thread th_2 = new Thread(()-> {
+            VibeBayinMain vb = new VibeBayinMain(db, 2);
+            vb.setVisible(true);
 
-        // });
+        });
 
         // // OPEN ACCOUNT ID=2 VB ACCOUNT
         // Thread th_3 = new Thread(()-> {
@@ -36,7 +37,7 @@ public class Main {
         // });
 
         th_1.start();
-        //th_2.start();
+        th_2.start();
         //th_3.start();
 
 
