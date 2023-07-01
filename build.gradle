@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.13'
 }
 
 group = 'org.example'
@@ -9,7 +11,27 @@ repositories {
     mavenCentral()
 }
 
+javafx {
+    version = "20.0.1"
+    modules = [ 'javafx.controls' , 'javafx.fxml', 'javafx.graphics']
+}
+
+mainClassName = "org.alibaby.View.Login"
+
 dependencies {
+    implementation('org.controlsfx:controlsfx:11.1.2')
+    implementation('com.dlsc.formsfx:formsfx-core:11.6.0') {
+        exclude(group: 'org.openjfx')
+    }
+    implementation('net.synedra:validatorfx:0.4.0') {
+        exclude(group: 'org.openjfx')
+    }
+    implementation('org.kordamp.ikonli:ikonli-javafx:12.3.1')
+    implementation('org.kordamp.bootstrapfx:bootstrapfx-core:0.4.0')
+
+    implementation('com.github.almasb:fxgl:17.2') {
+        exclude(group: 'org.openjfx')
+    }
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     implementation 'com.google.firebase:firebase-admin:9.1.1'
