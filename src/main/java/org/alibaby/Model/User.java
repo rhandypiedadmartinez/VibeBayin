@@ -44,14 +44,18 @@ public class User {
     @PropertyName("password_salt")
     public String password_salt;
 
+    @PropertyName("email")
+    public String email;
+
     public User(){}
     
-    public User(int userID, String name, String password, boolean isOnline, String password_salt){
+    public User(int userID, String name, String password, boolean isOnline, String password_salt, String email){
         this.userID = userID;
         this.name = name;
         this.password = password;
         this.isOnline = isOnline;
         this.password_salt = password_salt;
+        this.email = email;
     }
 
     public static void main(String[] args){
@@ -74,7 +78,7 @@ public class User {
     
             DocumentReference addedDocRef = db.collection("all_users").document(ii);
             
-            User data = new User(i, randomName, encryptPassword("DummyPWsdasdasd"+ii, salt), false, salt);           
+            User data = new User(i, randomName, encryptPassword("DummyPWsdasdasd"+ii, salt), false, salt, randomName.replace(" ","").toLowerCase()+"@gmail.com");           
         
             ApiFuture<WriteResult> writeResult = addedDocRef.set(data);
         }
