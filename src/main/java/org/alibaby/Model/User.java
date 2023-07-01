@@ -18,6 +18,7 @@ import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
+import org.mindrot.jbcrypt.BCrypt;
 
 
 import org.alibaby.Model.Database;
@@ -39,14 +40,18 @@ public class User {
 
     @PropertyName("level")
     public int level;
-    
+
+    @PropertyName("password_salt")
+    public String password_salt;
+
     public User(){}
     
-    public User(int userID, String name, String password, boolean isOnline){
+    public User(int userID, String name, String password, boolean isOnline, String password_salt){
         this.userID = userID;
         this.name = name;
         this.password = password;
-        this.isOnline = isOnline;   
+        this.isOnline = isOnline;
+        this.password_salt = password_salt;
     }
 
     public static void main(String[] args){
@@ -60,10 +65,16 @@ public class User {
         int last = getNumberOfUSers(db);
 
         for(int i=last; i<(last + numberOfDummyUsers); i++){
-            String ii = String.valueOf(i);
+            String randomName = NameGenerator.generateRandomName();
+        
+            // Generate a salt
+            String salt = BCrypt.gensalt();
+                
+            String ii = String.format("%05d", i);
+    
             DocumentReference addedDocRef = db.collection("all_users").document(ii);
             
-            User data = new User(i, "DummyName" + ii , "DummyPassword" + ii, false);           
+            User data = new User(i, randomName, encryptPassword("DummyPWsdasdasd"+ii, salt), false, salt);           
         
             ApiFuture<WriteResult> writeResult = addedDocRef.set(data);
         }
@@ -91,4 +102,23 @@ public class User {
         }
         return count;
     }
+
+    private static String encryptPassword(String password, String salt){
+        
+        // Hash the password with the salt
+        String hashedPassword = BCrypt.hashpw(password, salt);
+
+        //System.out.println("Original password: " + password);
+        //System.out.println("Hashed password: " + hashedPassword);
+        
+        return hashedPassword;
+    }
+
+    private static boolean isPasswordCorrect(String password, String salt, String hashedPassword2){
+        String hashedPassword1 = BCrypt.hashpw(password, salt);
+
+        return hashedPassword1.equals(hashedPassword2);
+    }
+
+
 }

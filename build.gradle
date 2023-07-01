@@ -39,7 +39,8 @@ dependencies {
     implementation 'org.openjfx:javafx-controls:20.0.1'
     implementation 'org.openjfx:javafx-fxml:20.0.1'
     implementation 'org.openjfx:javafx-graphics:20.0.1'
-    
+    implementation 'org.mindrot:jbcrypt:0.4'
+
 }
 
 
