@@ -20,10 +20,10 @@ public class LoginController {
     static Firestore db = new Database().db;
 
     @FXML
-    private TextField txtUsername;
+    public TextField txtUsername;
 
     @FXML
-    private TextField txtPW;
+    public TextField txtPW;
 
     @FXML
     public Button btnLogin;
@@ -35,7 +35,7 @@ public class LoginController {
 
 
     @FXML
-    private void initialize() {
+    public void initialize() {
         // Add initialization code here (if needed)
     }
 
@@ -63,12 +63,11 @@ public class LoginController {
             // Assuming the email is unique, there should be only one document
             DocumentSnapshot document = documents.get(0);
             User user = document.toObject(User.class);
-            int userID = user.userID;
-
             // Validate the password
             if (verifyPassword(password, user.getEncryptedPassword(password, user.password_salt))) {
                 System.out.println("Login successful.");
-                Main main = new Main(userID);
+                VibeBayinMain vibeBayinMain = new VibeBayinMain(db, user.userID);
+                vibeBayinMain.setVisible(true);
             } else {
                 System.out.println("Invalid password.");
             }
@@ -77,7 +76,7 @@ public class LoginController {
         }
     }
 
-    private static boolean verifyPassword(String password, String encryptedPassword) {
+    public static boolean verifyPassword(String password, String encryptedPassword) {
         return BCrypt.checkpw(password, encryptedPassword);
     }
 
