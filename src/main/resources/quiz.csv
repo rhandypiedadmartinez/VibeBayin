@@ -1,0 +1,76 @@
+question,figures,choice 1,choice 2,choice 3,answer
+anong patinig ito?,A,E/I,O/U,A,A
+anong patinig ito?,E/I,A,E/I,O/U,E/I
+anong patinig ito?,O/U,O/U,E/I,A,O/U
+anong katinig ito?,BA,DA,GA,BA,BA
+anong katinig ito?,KA,BA,KA,DA,KA
+anong katinig ito?,DA,DA,LA,SA,DA
+anong katinig ito?,GA,TA,GA,BA,GA
+anong katinig ito?,HA,NA,MA,HA,HA
+anong katinig ito?,LA,LA,DA,BA,LA
+anong katinig ito?,MA,PA,TA,MA,MA
+anong katinig ito?,NA,YA,NA,BA,NA
+anong katinig ito?,NGA,NGA,GA,HA,NGA
+anong katinig ito?,PA,NGA,MA,PA,PA
+anong katinig ito?,SA,SA,PA,HA,SA
+anong katinig ito?,TA,BA,KA,TA,TA
+anong katinig ito?,WA,LA,WA,HA,WA
+anong katinig ito?,YA,TA,YA,SA,YA
+anong katinig ito?,BE/BI,DE/DI,BE/BI,LE/LI,BE/BI
+anong katinig ito?,KE/KI,KE/KI,GE/GI,HE/HI,KE/KI
+anong katinig ito?,DE/DI,PE/PI,ME/MI,DE/DI,DE/DI
+anong katinig ito?,GE/GI,BE/BI,SE/SI,GE/GI,GE/GI
+anong katinig ito?,HE/HI,HE/HI,GE/GI,NE/NI,HE/HI
+anong katinig ito?,LE/LI,NE/NI,LE/LI,DE/DI,LE/LI
+anong katinig ito?,ME/MI,ME/MI,NGE/GI,WE/WI,ME/MI
+anong katinig ito?,NE/NI,YE/YI,PE/PI,NE/NI,NE/NI
+anong katinig ito?,NGE/NGI,NGE/NGI,WE/WI,KE/KI,NGE/NGI
+anong katinig ito?,PE/PI,PE/PI,YE/YI,GE/GI,PE/PI
+anong katinig ito?,SE/SI,DE/DI,LE/LI,SE/SI,SE/SI
+anong katinig ito?,TE/TI,YE/YI,TE/TI,GE/GI,TE/TI
+anong katinig ito?,WE/WI,BE/BI,KE/KI,WE/WI,WE/WI
+anong katinig ito?,YE/YI,YE/YI,WE/WI,PE/PI,YE/YI
+anong katinig ito?,BO/BU,GO/GU,BO/BU,PO/PU,BO/BU
+anong katinig ito?,KO/KU,HO/HU,KO/KU,DO/DU,KO/KU
+anong katinig ito?,DO/DU,DO/DU,BO/BU,NO/NU,DO/DU
+anong katinig ito?,GO/GU,MO/MU,SO/SU,GO/GU,GO/GU
+anong katinig ito?,HO/HU,TO/TU,HO/HU,YO/YU,HO/HU
+anong katinig ito?,LO/LU,LO/LU,WO/WU,BO/BU,LO/LU
+anong katinig ito?,MO/MU,PO/PU,KO/KU,MO/MU,MO/MU
+anong katinig ito?,NO/NU,DO/DU,NO/NU,YO/YU,NO/NU
+anong katinig ito?,NGO/NGU,NGO/NGU,BO/BU,KO/KU,NGO/NGU
+anong katinig ito?,PO/PU,YO/YU,LO/LU,PO/PU,PO/PU
+anong katinig ito?,SO/SU,WO/WU,SO/SU,HO/HU,SO/SU
+anong katinig ito?,TO/TU,TO/TU,NGO/NGU,KO/KU,TO/TU
+anong katinig ito?,WO/WU,HO/HU,NO/NU,WO/WU,WO/WU
+anong katinig ito?,YO/YU,NGO/NGU,YO/YU,SO/SU,YO/YU
+anong ibig sabihin ng salitang ito?,Kalye,Kalyo,Kalye,Kalyu,Kalye
+anong ibig sabihin ng salitang ito?,Inay,Inay,Anay,Onay,Inay
+anong ibig sabihin ng salitang ito?,Ngitngit,Ngitngit,Ngatngat,Ngutngot,Ngitngit
+anong ibig sabihin ng salitang ito?,Ngiti,Ngata,Ngoto,Ngiti,Ngiti
+anong ibig sabihin ng salitang ito?,Buhay,Bahay,Bahoy,Buhay,Buhay
+anong ibig sabihin ng salitang ito?,Tita,Toto,Tita,Tata,Tita
+anong ibig sabihin ng salitang ito?,Kaso,Kaso,Kasa,Kese,Kaso
+anong ibig sabihin ng salitang ito?,Aray,Arey,Aray,Uroy,Aray
+anong ibig sabihin ng salitang ito?,Baka,Baka,Beke,Buko,Baka
+anong ibig sabihin ng salitang ito?,Elesi,Alasa,Ilisi,Elesi,Elesi
+anong ibig sabihin ng salitang ito?,Sushi,Sasha,Sushi,Sishi,Sushi
+anong ibig sabihin ng salitang ito?,Patay,Yatap,Potoy,Patay,Patay
+anong ibig sabihin ng salitang ito?,Daga,Dugo,Daga,Doga,Daga
+anong ibig sabihin ng salitang ito?,Kama,Keme,Koma,Kama,Kama
+anong ibig sabihin ng salitang ito?,Piyok,Piyok,Payak,Poyok,Piyok
+anong ibig sabihin ng salitang ito?,Libro,Libra,Libro,Libre,Libro
+anong ibig sabihin ng salitang ito?,Pusa,Pasa,Pusa,Puso,Pusa
+anong ibig sabihin ng salitang ito?,Atay,Atay,Itay,Utoy,Atay
+anong ibig sabihin ng salitang ito?,Makati,Makata,Makita,Makati,Makati
+anong ibig sabihin ng salitang ito?,Mesa,Misa,Masa,Mesa,Mesa
+anong ibig sabihin ng salitang ito?,Dama,Dama,Dami,Domo,Dama
+anong ibig sabihin ng salitang ito?,Tala,Tili,Tala,Tulo,Tala
+anong ibig sabihin ng salitang ito?,Labi,Laba,Lobo,Labi,Labi
+anong ibig sabihin ng salitang ito?,Upo,Apa,Upo,Opo,Upo
+anong ibig sabihin ng salitang ito?,Dugo,Dugo,Digi,Daga,Dugo
+anong ibig sabihin ng salitang ito?,Silya,Salya,Silya,Solyo,Silya
+anong ibig sabihin ng salitang ito?,Saya,Soyo,Saya,Siya,Saya
+anong ibig sabihin ng salitang ito?,Taya,Toyo,Tuyu,Taya,Taya
+anong ibig sabihin ng salitang ito?,Bala,Bili,Bala,Bolo,Bala
+anong ibig sabihin ng salitang ito?,Yapak,Yopok,Yipik,Yapak,Yapak
