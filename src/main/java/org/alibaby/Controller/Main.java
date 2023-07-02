@@ -43,7 +43,7 @@ public class Main {
 
     }
 
-    Main(int currentUser){
+    public Main(int currentUser){
         this.currentUser = currentUser;
     }
 }

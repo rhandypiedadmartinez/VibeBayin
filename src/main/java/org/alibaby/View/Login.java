@@ -16,6 +16,7 @@ public class Login extends Application {
         LoginController loginController = loader.getController();
         // Perform any additional initialization of the login controller if needed
         loginController.btnLogin.setOnAction(event -> loginController.handleLogin());
+        loginController.btnSignup.setOnAction(event -> loginController.handleSignup());
 
 
         // Create the scene

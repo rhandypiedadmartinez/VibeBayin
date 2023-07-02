@@ -58,6 +58,12 @@ public class User {
         this.email = email;
     }
 
+    public User(String name, String password, String password_salt){
+        this.name = name;
+        this.password = password;
+        this.password_salt = password_salt;
+    }
+
     public static void main(String[] args){
         Firestore db = new Database().db;
         writeDB(db, 5);
@@ -85,7 +91,7 @@ public class User {
         
     }
 
-    private static int getNumberOfUSers(Firestore db){
+    public static int getNumberOfUSers(Firestore db){
         int count = 0;
         try {
            // asynchronously retrieve multiple documents
@@ -107,7 +113,7 @@ public class User {
         return count;
     }
 
-    private static String encryptPassword(String password, String salt){
+    public static String encryptPassword(String password, String salt){
         
         // Hash the password with the salt
         String hashedPassword = BCrypt.hashpw(password, salt);
@@ -122,6 +128,10 @@ public class User {
         String hashedPassword1 = BCrypt.hashpw(password, salt);
 
         return hashedPassword1.equals(hashedPassword2);
+    }
+
+    public static String getEncryptedPassword(String password, String salt) {
+        return encryptPassword(password, salt);
     }
 
 
