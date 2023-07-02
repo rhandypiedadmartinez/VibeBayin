@@ -23,6 +23,8 @@ import org.alibaby.Model.City;
 import org.alibaby.Model.Database;
 import org.alibaby.Model.Message;
 import org.alibaby.Model.MessageListener;
+import org.alibaby.Playground.*;
+
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.Timestamp;
@@ -51,28 +53,39 @@ public class InnerChatBoxPane {
     public Font arial;
     public BaybayinUtil bUtil;
     public JScrollPane scrollPane;
+    public int currentUser;
 
     public InnerChatBoxPane (Firestore db, int currentUser, int kausap) {
+        this.currentUser = currentUser;
+
         this.db = db;
+
+
         arial = new Font("Arial", Font.PLAIN, 14);
         bUtil = new BaybayinUtil();
         fixed = bUtil.fixed;
 
+        panel = new JPanel();
+
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
         lblMessages = new ArrayList<>();
         messages = new ArrayList<>();
-        panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
- 
-        JFrame frame = new JFrame("VibeBayin");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        //JPanel bottomPanel = new QuizGUI(qz.quizzes, level).panel;
+
+                         
+
+        //JFrame frame = new JFrame("VibeBayin");
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         scrollPane = new JScrollPane(panel);
 
         GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(fixed);
 
             try {
                 dim = new Dimension(200, 30);
-                frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-                frame.setSize(400, 800);
+                //frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                //frame.setSize(400, 800);
                 JLabel lblFrom = new JLabel("From :");
                 txtFrom = new JLabel(String.valueOf(currentUser));
                 txtFrom.setPreferredSize(dim);
@@ -92,6 +105,10 @@ public class InnerChatBoxPane {
 
                 JButton btnSend = new JButton("Send");
                 btnSend.setPreferredSize(dim);      
+
+                //panel.add( new QuizGUI(qz.quizzes, level).panel, BorderLayout.SOUTH);               
+
+                scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
                 db.collection("all_messages")
                 .whereIn("from", Arrays.asList(new Integer[]{currentUser, kausap}))
@@ -116,9 +133,18 @@ public class InnerChatBoxPane {
                         break;
                         case MODIFIED:
                         System.out.println("Modified message: " + dc.getDocument().getData());
+
                         break;
                         case REMOVED:
                         System.out.println("Removed message: " + dc.getDocument().getData());
+                            // Message msg3 = dc.getDocument().toObject(Message.class);
+                            // int index = messages.indexOf(msg3);
+                            // lblMessages.remove(index);
+                            // messages.remove(index);
+                            // panel = new JPanel();
+
+                            // panel.revalidate();
+                            // panel.repaint();
                         break;
                         default:
                         break;
@@ -159,10 +185,12 @@ public class InnerChatBoxPane {
                         txtOutput.setText(bUtil.translate(txtMessage.getText()));
 
                         String message = txtMessage.getText();
+
                     }
 
                     @Override
                     public void changedUpdate(DocumentEvent e) {
+
                     }
                 });
 
@@ -178,7 +206,6 @@ public class InnerChatBoxPane {
                 
                 //panel.add(btnSend);
 
-           //     scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
                 // frame.getContentPane().add(scrollPane);
 
@@ -189,10 +216,23 @@ public class InnerChatBoxPane {
                 e1.printStackTrace();
             } 
 
+            Thread a = new Thread(()->{
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+                addUserOptions();
+            });
 
+            if (kausap==0){
+                a.start();
+            }
         }
 
     public void addMessage(Message message){
+        JPanel newPanel = new JPanel();
+
         System.out.println(message.message);
         JLabel lblUser = new JLabel("User: " + message.from);
         lblUser.setPreferredSize(dim);
@@ -200,19 +240,53 @@ public class InnerChatBoxPane {
 
         lblMessage.setPreferredSize(dim);
 
+
         int currentUser = Integer.valueOf(txtFrom.getText());
         if ((currentUser == message.from) || (currentUser == message.to)){
-            panel.add(lblUser);
-            panel.add(lblMessage);
+            newPanel.add(lblUser);
+            newPanel.add(lblMessage);
+            newPanel.setPreferredSize(new Dimension(200, 100));
+
+            panel.add(newPanel);
+
             lblMessages.add(lblMessage);
             messages.add(message);
+
             panel.revalidate();
             panel.repaint();
         } else {
         
         }
+
+        //addUserOptions();
         
         updatefromLabels();
+    }
+
+    public void addUserOptions(){
+        UserOptions opt = new UserOptions(this, this.currentUser, this.db);
+        JPanel newPanel = opt.panel;
+        newPanel.setPreferredSize(new Dimension(200, 100));
+        panel.add(newPanel);
+            
+        panel.revalidate();
+        panel.repaint();
+
+    }
+
+    public void addQuiz(){
+
+        int level = 1;
+        Quiz qz = new Quiz();
+        QuizGUI quizGUI = new QuizGUI(this, qz.quizzes, this.currentUser, this.db);
+        
+        JPanel newPanel = quizGUI.panel;
+        newPanel.setPreferredSize(new Dimension(200, 100));
+        panel.add(newPanel);
+        
+        panel.revalidate();
+        panel.repaint();
+
     }
     
     public void updatefromLabels(){

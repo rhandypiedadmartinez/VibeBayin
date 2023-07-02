@@ -27,7 +27,7 @@ public class BaybayinUtil {
             fixed = Font.createFont(Font.TRUETYPE_FONT, myFontFile);
             GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(fixed);
             Map attributes = fixed.getAttributes();
-            attributes.put(TextAttribute.SIZE, 30);
+            attributes.put(TextAttribute.SIZE, 20);
             attributes.put(TextAttribute.LIGATURES, TextAttribute.LIGATURES_ON);
             fixed = fixed.deriveFont(attributes);
 

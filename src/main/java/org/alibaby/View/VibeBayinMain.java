@@ -50,6 +50,46 @@ public class VibeBayinMain extends JFrame {
         friends = friendsUtil.friendsList;
         chatboxes = new HashMap<>();
 
+
+        // db.collection("all_messages")
+        // .whereIn("from", Arrays.asList(new Integer[]{currentUser, kausap}))
+        // .whereIn("to", Arrays.asList(new Integer[]{currentUser, kausap}))
+        // .addSnapshotListener(new EventListener<QuerySnapshot>() {
+        // @Override
+        // public void onEvent(
+        //     @Nullable QuerySnapshot snapshots, @Nullable FirestoreException e) {
+        //     if (e != null) {
+        //         System.err.println("Listen failed: " + e);
+        //         return;
+        //     }
+
+        //     for (DocumentChange dc : snapshots.getDocumentChanges()) {
+        //     switch (dc.getType()) {
+        //         case ADDED:
+        //             System.out.println("New message: " + dc.getDocument().getData());
+        //             break;
+        //         case MODIFIED:
+        //             System.out.println("Modified message: " + dc.getDocument().getData());
+        //             break;
+        //         case REMOVED:
+        //             System.out.println("Removed message: " + dc.getDocument().getData());
+        //             // Message msg3 = dc.getDocument().toObject(Message.class);
+        //             // int index = messages.indexOf(msg3);
+        //             // lblMessages.remove(index);
+        //             // messages.remove(index);
+        //             // panel = new JPanel();
+
+        //             // panel.revalidate();
+        //             // panel.repaint();
+        //             break;
+        //         default:
+        //             break;
+        //     }
+        //     }
+        // }
+        // });
+
+
         Thread th_1 = new Thread(()-> {
             for(int i=0; i<friends.size()/2; i++){
                 try {
@@ -96,13 +136,13 @@ public class VibeBayinMain extends JFrame {
             th_2.join();
             th_1.join();
 
-        // Create the chatbox panel using JTabbedPane
-        tabbedPane = new JTabbedPane();
-        chatPanes = new HashMap<>();
+            // Create the chatbox panel using JTabbedPane
+            tabbedPane = new JTabbedPane();
+            chatPanes = new HashMap<>();
 
-        // Add the sidebar and tabbed pane to the main frame
-        add(sidebarPanel, BorderLayout.WEST);
-        add(tabbedPane, BorderLayout.CENTER);
+            // Add the sidebar and tabbed pane to the main frame
+            add(sidebarPanel, BorderLayout.WEST);
+            add(tabbedPane, BorderLayout.CENTER);
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

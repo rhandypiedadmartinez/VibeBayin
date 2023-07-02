@@ -134,5 +134,53 @@ public class User {
         return encryptPassword(password, salt);
     }
 
+    public static int getLevel(Firestore db, int currentUser) throws Exception{              
+        String ii = String.format("%05d", currentUser);
+
+        DocumentReference docRef = db.collection("all_users").document(ii);
+        // asynchronously retrieve the document
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+        // ...
+        // future.get() blocks on response
+        DocumentSnapshot document = future.get();
+        if (document.exists()) {
+          System.out.println("Document data: " + document.getData());
+        } else {
+          System.out.println("No such document!");
+          return 0;
+        }
+
+        return document.toObject(User.class).level;
+    }
+
+    public static void increaseLevel(Firestore db, int currentUser) throws Exception{              
+        String ii = String.format("%05d", currentUser);
+
+        DocumentReference docRef = db.collection("all_users").document(ii);
+        // asynchronously retrieve the document
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+        // ...
+        // future.get() blocks on response
+        DocumentSnapshot document = future.get();
+        if (document.exists()) {
+          System.out.println("Document data: " + document.getData());
+        } else {
+          System.out.println("No such document!");
+          return;
+        }
+
+        int level = document.toObject(User.class).level;
+        level++;
+
+        // Update an existing document
+        // (async) Update one field
+        ApiFuture<WriteResult> future1 = docRef.update("level", level);
+
+        // ...
+        WriteResult result = future1.get();
+        System.out.println("Write result: " + result);
+    }
+
+
 
 }

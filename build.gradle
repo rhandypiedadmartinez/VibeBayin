@@ -54,18 +54,18 @@ test {
     useJUnitPlatform()
 }
 
-task runController(type: JavaExec) {
+task run1(type: JavaExec) {
     main = 'org.alibaby.Controller.FriendsUtil'
 }
 
-task runPlay(type: JavaExec) {
-    main = 'org.alibaby.Controller.Main'
+task run2(type: JavaExec) {
+    main = 'org.alibaby.Playground.Quiz'
 }
 
-task runModel(type: JavaExec) {
-    main = 'org.alibaby.Model.User'
+task run3(type: JavaExec) {
+    main = 'org.alibaby.Playground.QuizGUI'
 }
 
-task runView(type: JavaExec) {
-    main = 'org.alibaby.View.MultilineLabel'
+task run4(type: JavaExec) {
+    main = 'org.alibaby.Playground.DirectMain'
 }

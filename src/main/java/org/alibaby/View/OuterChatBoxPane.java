@@ -78,6 +78,9 @@ public class OuterChatBoxPane extends JFrame {
 
         JScrollPane scrollPane = new JScrollPane(cb.panel);
         scrollPane.setPreferredSize(new Dimension(500,550));
+       scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
         //scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
        // add(scrollPane, BorderLayout.CENTER);
         panel.add(scrollPane, BorderLayout.CENTER);

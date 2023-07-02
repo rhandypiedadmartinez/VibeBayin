@@ -55,6 +55,7 @@ public class Kislap {
                 new Message(0,currentUser,"Kamusta ka! Ako si Kislap",Timestamp.now())));
     }
 
+
     private void writeDB(int from, int to) {
         CollectionReference convoWithKislap = db.collection("all_messages");
         List<ApiFuture<WriteResult>> futures = new ArrayList<>();
@@ -71,5 +72,27 @@ public class Kislap {
  
         }
     }   
+
+    public static void kislapSendMessage(Firestore db, int currentUser, String messageBody){
+
+        int from = 0;
+        int to = currentUser;
+
+        Timestamp timestamp = Timestamp.now();
+        
+        Message message = new Message(from, to, messageBody, timestamp);
+        ApiFuture<WriteResult> future = db.collection("all_messages").document(timestamp.toString()).set(message);   
+    }
+
+    public static void kislapConnect(Firestore db, int currentUser, int kausap){
+        String messageBody = "Mag-landian kayong dalawa";
+        int from = kausap;
+        int to = currentUser;
+
+        Timestamp timestamp = Timestamp.now();
+        
+        Message message = new Message(from, to, messageBody, timestamp);
+        ApiFuture<WriteResult> future = db.collection("all_messages").document(timestamp.toString()).set(message);   
+    }
     
 }
