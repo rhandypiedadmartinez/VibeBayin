@@ -34,8 +34,6 @@ public class FriendsUtil {
         // asynchronously retrieve the document
         ApiFuture<QuerySnapshot> querySnapshot = query.get();
 
-
-
         try {
             for(DocumentSnapshot document: querySnapshot.get().getDocuments()){
                 Message msg = document.toObject(Message.class);
@@ -52,16 +50,17 @@ public class FriendsUtil {
 
         friendsList = new ArrayList<Integer>(friends);
         if (friendsList.isEmpty()){
-            System.out.println("No Friends");
+          //  System.out.println("No Friends");
         }
+
+        storeFriendsList();
     }
 
     public static void main(String[] args) {
-        System.out.println(new FriendsUtil(new Database().db, 1).friendsList);
+    //    System.out.println(new FriendsUtil(new Database().db, 1).friendsList);
     }
 
-    public void connectToNewFriend(){
-
+    public int connectToNewFriend(){
 
         LinkedHashSet<Integer> not_friends;
     
@@ -92,12 +91,18 @@ public class FriendsUtil {
         } else {
             Kislap.kislapConnect(this.db, this.currentUser, new_friend);
         }
+
+        return new_friend;
     }
 
     public void connectToExistingFriend(String name){
 
        // Kislap.kislapSendMessage(this.db, )
         
+    }
+
+    public void storeFriendsList(){
+
     }
  
 }

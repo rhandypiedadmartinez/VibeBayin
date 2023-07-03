@@ -139,7 +139,7 @@ public class QuizGUI  implements ActionListener {
         panel.add(label2, constraints);
 
         // Button 1
-        JButton button1 = new JButton();
+        button1 = new JButton();
 
         button1.setText(ch1);
         
@@ -149,14 +149,14 @@ public class QuizGUI  implements ActionListener {
         panel.add(button1, constraints);
 
         // Button 2
-        JButton button2 = new JButton();
+        button2 = new JButton();
         button2.setText(ch2);
         constraints.gridx = 1;
         constraints.gridy = 2;
         panel.add(button2, constraints);
 
         // Button 3
-        JButton button3 = new JButton();
+        button3 = new JButton();
         button3.setText(ch3);
         constraints.gridx = 2;
         constraints.gridy = 2;
@@ -173,9 +173,9 @@ public class QuizGUI  implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
 
-        // button1.setEnabled(false);
-        // button2.setEnabled(false);
-        // button3.setEnabled(false);
+        button1.setEnabled(false);
+        button2.setEnabled(false);
+        button3.setEnabled(false);
         
         String command = e.getActionCommand();
         System.out.println("Button clicked: " + command);

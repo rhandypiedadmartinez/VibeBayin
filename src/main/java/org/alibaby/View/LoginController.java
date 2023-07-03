@@ -66,7 +66,7 @@ public class LoginController {
             // Validate the password
             if (verifyPassword(password, user.getEncryptedPassword(password, user.password_salt))) {
                 System.out.println("Login successful.");
-                VibeBayinMain vibeBayinMain = new VibeBayinMain(db, user.userID);
+                VibeBayinMain2 vibeBayinMain = new VibeBayinMain2(db, user.userID);
                 vibeBayinMain.setVisible(true);
             } else {
                 System.out.println("Invalid password.");

@@ -1,5 +1,8 @@
 package org.alibaby.Model;
 
+
+import org.alibaby.Controller.Utilities.*;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,8 +40,15 @@ public class Kislap {
 
         try {
             if (querySnapshot.get().getDocuments().isEmpty()){
+            
                 initializeKislap();
-            } 
+            } else {
+                for (DocumentSnapshot document : querySnapshot.get().getDocuments()) {
+                    //System.out.println(document.getId() + " => " + document.toObject(Message.class).message);
+                   // System.out.println("Already Kislap");
+                }
+             
+            }
 
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
@@ -82,6 +92,8 @@ public class Kislap {
         
         Message message = new Message(from, to, messageBody, timestamp);
         ApiFuture<WriteResult> future = db.collection("all_messages").document(timestamp.toString()).set(message);   
+    
+
     }
 
     public static void kislapConnect(Firestore db, int currentUser, int kausap){
@@ -93,6 +105,15 @@ public class Kislap {
         
         Message message = new Message(from, to, messageBody, timestamp);
         ApiFuture<WriteResult> future = db.collection("all_messages").document(timestamp.toString()).set(message);   
+    
+        FriendsUtil friendsUtil = new FriendsUtil(db, currentUser);
+        FriendsList fr_list3 = new FriendsList(currentUser, friendsUtil.friendsList);
+        
+        try {
+            fr_list3.initializeFriendList(db);
+        } catch (Exception e7){
+
+        }
     }
     
 }

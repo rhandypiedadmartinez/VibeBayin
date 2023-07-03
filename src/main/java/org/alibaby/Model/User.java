@@ -64,10 +64,31 @@ public class User {
         this.password_salt = password_salt;
     }
 
+    public static User getUser(Firestore db, int currentUser){
+        String ii = String.format("%05d", currentUser);
+
+        DocumentReference docRef = db.collection("all_users").document(ii);
+        
+        ApiFuture<DocumentSnapshot> future = docRef.get();
+
+        DocumentSnapshot document = null;
+
+        try {
+            document = future.get();
+        } catch (Exception e5){
+
+        }
+
+        return document.toObject(User.class);
+    }
+
     public static void main(String[] args){
         Firestore db = new Database().db;
-        writeDB(db, 5);
-        System.out.println(getNumberOfUSers(db));
+         writeDB(db, 5);
+        // System.out.println(getNumberOfUSers(db));
+        // for(int i=0; i<2; i++){
+        //     System.out.println(User.getUser(db, i).name);
+        // }
     }
 
     private static void writeDB(Firestore db, int numberOfDummyUsers) {
@@ -105,7 +126,7 @@ public class User {
 
             for (DocumentSnapshot document : documents) {
               count++;
-              System.out.println(document.getId() + " => " + document.toObject(User.class));
+              //System.out.println(document.getId() + " => " + document.toObject(User.class));
             }
         } catch (Exception e){
             e.printStackTrace();
@@ -178,7 +199,7 @@ public class User {
 
         // ...
         WriteResult result = future1.get();
-        System.out.println("Write result: " + result);
+      //  System.out.println("Write result: " + result);
     }
 
 

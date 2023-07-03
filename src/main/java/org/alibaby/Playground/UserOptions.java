@@ -40,7 +40,7 @@ import java.util.concurrent.ExecutionException;
 
 import org.alibaby.Controller.Utilities.BaybayinUtil;
 import org.alibaby.Model.City;
-import org.alibaby.Model.Database;
+import org.alibaby.Model.*;
 import org.alibaby.Model.Message;
 import org.alibaby.Model.MessageListener;
 
@@ -126,13 +126,13 @@ public class UserOptions implements ActionListener {
         
         panel.add(button3, constraints);
 
-        button4 = new JButton();
-        button4.setText("Kumonekta");
-        button4.addActionListener(this);
+        // button4 = new JButton();
+        // button4.setText("Kumonekta");
+        // button4.addActionListener(this);
         
-        constraints.gridx = 3;
-        constraints.gridy = 2;
-        panel.add(button4, constraints);
+        // constraints.gridx = 3;
+        // constraints.gridy = 2;
+        // panel.add(button4, constraints);
 
     }
 
@@ -142,10 +142,10 @@ public class UserOptions implements ActionListener {
         button1.setEnabled(false);
         button2.setEnabled(false);
         button3.setEnabled(false);
-        button4.setEnabled(false);
+//        button4.setEnabled(false);
 
         String command = e.getActionCommand();
-        System.out.println("Button clicked: " + command);
+        //System.out.println("Button clicked: " + command);
             
         Thread b = new Thread(()->{
             try {
@@ -188,6 +188,13 @@ public class UserOptions implements ActionListener {
         if (command.equals("Kumaibigan")){
             FriendsUtil fu = new FriendsUtil(this.db, this.currentUser);
             fu.connectToNewFriend();
+            
+            FriendsList fr_list = new FriendsList(this.currentUser, fu.friendsList);
+            try {
+                fr_list.storeFriends(db);
+            } catch (Exception e5){
+
+            }
             b.start();
         }
 

@@ -125,18 +125,18 @@ public class InnerChatBoxPane {
                     for (DocumentChange dc : snapshots.getDocumentChanges()) {
                     switch (dc.getType()) {
                         case ADDED:
-                            System.out.println("New message: " + dc.getDocument().getData());
+                            //System.out.println("New message: " + dc.getDocument().getData());
                             //if (message.)
                             Message msg2 = dc.getDocument().toObject(Message.class);
                             addMessage(msg2);
                            
                         break;
                         case MODIFIED:
-                        System.out.println("Modified message: " + dc.getDocument().getData());
+                        //System.out.println("Modified message: " + dc.getDocument().getData());
 
                         break;
                         case REMOVED:
-                        System.out.println("Removed message: " + dc.getDocument().getData());
+                        //System.out.println("Removed message: " + dc.getDocument().getData());
                             // Message msg3 = dc.getDocument().toObject(Message.class);
                             // int index = messages.indexOf(msg3);
                             // lblMessages.remove(index);
