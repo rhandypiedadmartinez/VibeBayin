@@ -67,10 +67,10 @@ public class VibeBayinMain2 extends JFrame {
     public Firestore db;
     public int currentUser;
     public ArrayList<Integer> friends;
-    public JPanel sidebarPanel; 
+    public JPanel sidebarPanel;
     public ArrayList<JPanel> friendPanels;
     public ArrayList<String> friendNames;
-    
+
     public VibeBayinMain2(Firestore db, int currentUser) {
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -92,13 +92,13 @@ public class VibeBayinMain2 extends JFrame {
 
         this.db = db;
         this.currentUser = currentUser;
-        
+
         Kislap kislap = new Kislap(db, currentUser);
 
 
         FriendsUtil friendsUtil = new FriendsUtil(db, currentUser);
         FriendsList fr_list3 = new FriendsList(currentUser, friendsUtil.friendsList);
-        
+
         setTitle("VibeBayin App of USER: " + User.getUser(db, currentUser).name);
 
         try {
@@ -107,84 +107,84 @@ public class VibeBayinMain2 extends JFrame {
 
         }
         friends = friendsUtil.friendsList;
-        
+
         chatboxes = new HashMap<>();
 
 
         db.collection("all_friends_list")
-        .addSnapshotListener(new EventListener<QuerySnapshot>() {
-        @Override
-        public void onEvent(
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(
 
-                
-            @Nullable QuerySnapshot snapshots, @Nullable FirestoreException e) {
-            
-            //FriendsUtil fu = new FriendsUtil(db, currentUser);
-            //FriendsList fr_list2 = new FriendsList(currentUser, fu.friendsList);
-            
-            if (e != null) {
-                System.err.println("Listen failed: " + e);
-                return;
-            }
 
-            // if (snapshots.getDocumentChanges().isEmpty()){
-                
-            //     try {
-            //         fr_list2.storeFriends(db);
-            //     } catch (Exception e6){
+                            @Nullable QuerySnapshot snapshots, @Nullable FirestoreException e) {
 
-            //     }
-            // }
-            
-            for (DocumentChange dc : snapshots.getDocumentChanges()) {
-                FriendsList fr_list = dc.getDocument().toObject(FriendsList.class);
-                
-                    
-                switch (dc.getType()) {
-                    case ADDED:
+                        //FriendsUtil fu = new FriendsUtil(db, currentUser);
+                        //FriendsList fr_list2 = new FriendsList(currentUser, fu.friendsList);
 
-                        //System.out.println("New message: " + dc.getDocument().getData());
-                        
-                        if (fr_list.userID == currentUser){
-                            addChatBox(fr_list.friendsList);
-                            //friends = fr_list.friendsList;
+                        if (e != null) {
+                            System.err.println("Listen failed: " + e);
+                            return;
                         }
 
-                        break;
-                    case MODIFIED:
-                        //System.out.println("Modified message: " + dc.getDocument().getData());
+                        // if (snapshots.getDocumentChanges().isEmpty()){
 
-                        if (fr_list.userID == currentUser){
-                    
-                            addChatBox(fr_list.friendsList);
+                        //     try {
+                        //         fr_list2.storeFriends(db);
+                        //     } catch (Exception e6){
 
-                            //friends = fr_list.friendsList;
+                        //     }
+                        // }
+
+                        for (DocumentChange dc : snapshots.getDocumentChanges()) {
+                            FriendsList fr_list = dc.getDocument().toObject(FriendsList.class);
+
+
+                            switch (dc.getType()) {
+                                case ADDED:
+
+                                    //System.out.println("New message: " + dc.getDocument().getData());
+
+                                    if (fr_list.userID == currentUser){
+                                        addChatBox(fr_list.friendsList);
+                                        //friends = fr_list.friendsList;
+                                    }
+
+                                    break;
+                                case MODIFIED:
+                                    //System.out.println("Modified message: " + dc.getDocument().getData());
+
+                                    if (fr_list.userID == currentUser){
+
+                                        addChatBox(fr_list.friendsList);
+
+                                        //friends = fr_list.friendsList;
+                                    }
+
+
+                                    break;
+                                case REMOVED:
+                                    //System.out.println("Removed message: " + dc.getDocument().getData());
+
+                                    if (fr_list.userID == currentUser){
+                                        addChatBox(fr_list.friendsList);
+                                    }
+
+                                    // Message msg3 = dc.getDocument().toObject(Message.class);
+                                    // int index = messages.indexOf(msg3);
+                                    // lblMessages.remove(index);
+                                    // messages.remove(index);
+                                    // panel = new JPanel();
+
+                                    // panel.revalidate();
+                                    // panel.repaint();
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
-
-                        
-                        break;
-                    case REMOVED:
-                        //System.out.println("Removed message: " + dc.getDocument().getData());
-                        
-                        if (fr_list.userID == currentUser){
-                            addChatBox(fr_list.friendsList);
-                        }
-
-                        // Message msg3 = dc.getDocument().toObject(Message.class);
-                        // int index = messages.indexOf(msg3);
-                        // lblMessages.remove(index);
-                        // messages.remove(index);
-                        // panel = new JPanel();
-
-                        // panel.revalidate();
-                        // panel.repaint();
-                        break;
-                    default:
-                        break;
-                }
-                }
-        }
-        });
+                    }
+                });
 
 
         // Thread th_1 = new Thread(()-> {
@@ -195,7 +195,7 @@ public class VibeBayinMain2 extends JFrame {
         //             // TODO Auto-generated catch block
         //             e.printStackTrace();
         //         }
-                
+
         //         int friendID = friends.get(i);
         //         OuterChatBoxPane chatBoxPane = new OuterChatBoxPane(db, currentUser, friendID);
         //         chatboxes.put(friendID , chatBoxPane.panel);
@@ -213,7 +213,7 @@ public class VibeBayinMain2 extends JFrame {
         //             // TODO Auto-generated catch block
         //             e.printStackTrace();
         //         }
-                
+
         //         int friendID = friends.get(i);
         //         OuterChatBoxPane chatBoxPane = new OuterChatBoxPane(db, currentUser, friendID);
         //         chatboxes.put(friendID , chatBoxPane.panel);
@@ -243,49 +243,46 @@ public class VibeBayinMain2 extends JFrame {
         //     // TODO Auto-generated catch block
         //     e.printStackTrace();
         // }
-        
-            
 
-        
 
-        
+
+
+
+
     }
 
     public void addChatBox(ArrayList<Integer> fr){
-        
-        
+
+
         // for(int i=0; i<fr.size(); i++){
         //     this.friendNames.add();
         // }
 
-            sidebarPanel.removeAll();
+        sidebarPanel.removeAll();
 
-            for(int i=0; i<fr.size(); i++){
-                int friendID = fr.get(i);
-                String friendName = User.getUser(db, fr.get(i)).name;
-                OuterChatBoxPane chatBoxPane = new OuterChatBoxPane(db, currentUser, friendID);
-                chatboxes.put(friendID , chatBoxPane.panel);
-                JPanel friendPanel = createFriendPanel(friendName, loadImage("friend1.jpg"));
-                friendPanel.addMouseListener(new FriendPanelMouseListener(friendName,  fr.get(i)));
-                sidebarPanel.add(friendPanel);
-            }
+        for(int i=0; i<fr.size(); i++){
+            int friendID = fr.get(i);
+            String friendName = User.getUser(db, fr.get(i)).name;
+            OuterChatBoxPane chatBoxPane = new OuterChatBoxPane(db, currentUser, friendID);
+            chatboxes.put(friendID , chatBoxPane.panel);
+            JPanel friendPanel = createFriendPanel(friendName);
+            friendPanel.addMouseListener(new FriendPanelMouseListener(friendName,  fr.get(i)));
+            sidebarPanel.add(friendPanel);
+        }
 
-            sidebarPanel.revalidate();
-            sidebarPanel.repaint();
-            tabbedPane.revalidate();
-            tabbedPane.repaint();            
-        
+        sidebarPanel.revalidate();
+        sidebarPanel.repaint();
+        tabbedPane.revalidate();
+        tabbedPane.repaint();
 
-        
+
+
     }
 
-    private JPanel createFriendPanel(String friendName, Image image) {
+    private JPanel createFriendPanel(String friendName) {
         JPanel friendPanel = new JPanel();
         friendPanel.setLayout(new BorderLayout());
 
-        // Create the image label
-        JLabel imageLabel = new JLabel(new ImageIcon(image));
-        friendPanel.add(imageLabel, BorderLayout.CENTER);
 
         // Create the name label
         JLabel nameLabel = new JLabel(friendName);
@@ -339,7 +336,7 @@ public class VibeBayinMain2 extends JFrame {
                     JTextArea chatTextArea = new JTextArea();
                     JScrollPane chatScrollPane = new JScrollPane(chatTextArea);
                     tabbedPane.setComponentAt(selectedIndex, chatboxes.get(this.friendID));
-                   // tabbedPane.addTab(friendName, chatboxes.get(this.friendID));
+                    // tabbedPane.addTab(friendName, chatboxes.get(this.friendID));
                     tabbedPane.setTitleAt(selectedIndex, this.friendName);
                     chatPanes.put(friendName, chatTextArea);
                 }
