@@ -122,7 +122,7 @@ public class UserOptions implements ActionListener {
             int from = 0;
             int to = this.currentUser;
 
-            String messageBody = "Ito ay tutorial potangina";
+            String messageBody = "Ito ay isang Tutorial";
             Timestamp timestamp = Timestamp.now();
             
             Message message = new Message(from, to, messageBody, timestamp);
