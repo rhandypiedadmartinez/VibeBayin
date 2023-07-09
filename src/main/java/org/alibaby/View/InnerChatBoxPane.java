@@ -61,7 +61,7 @@ public class InnerChatBoxPane {
         this.db = db;
 
 
-        arial = new Font("Arial", Font.PLAIN, 14);
+        arial = new Font("Century Gothic", Font.PLAIN, 14);
         bUtil = new BaybayinUtil();
         fixed = bUtil.fixed;
 
