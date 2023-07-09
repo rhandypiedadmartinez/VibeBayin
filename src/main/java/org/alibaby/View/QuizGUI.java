@@ -96,6 +96,9 @@ public class QuizGUI  implements ActionListener {
         constraints.gridx = 0;
         constraints.gridy = 2;
         constraints.gridwidth = 1;
+        button1.setBackground(Color.RED);
+        button1.setForeground(Color.WHITE);
+
         panel.add(button1, constraints);
 
         // Button 2
@@ -103,11 +106,15 @@ public class QuizGUI  implements ActionListener {
         button2.setText(ch2);
         constraints.gridx = 1;
         constraints.gridy = 2;
+        button2.setBackground(Color.GREEN);
+
         panel.add(button2, constraints);
 
         // Button 3
         button3 = new JButton();
         button3.setText(ch3);
+        button3.setBackground(Color.BLUE);
+        button3.setForeground(Color.WHITE);
         constraints.gridx = 2;
         constraints.gridy = 2;
         panel.add(button3, constraints);
@@ -146,14 +153,14 @@ public class QuizGUI  implements ActionListener {
         }
 
         if (my_ans.equals(true_ans)){
-            Kislap.kislapSendMessage(this.db, this.currentUser, "Ikaw ay Tama!");
+            Kislap.kislapSendMessage(this.db, this.currentUser, "Ang iyong sagot ay Tama!");
             try {
                 User.increaseLevel(this.db, this.currentUser);
             } catch (Exception e4) {
                 e4.printStackTrace();
             }
         } else {
-            Kislap.kislapSendMessage(this.db, this.currentUser, "Ang iyong sagot ay mali!");
+            Kislap.kislapSendMessage(this.db, this.currentUser, "Ang iyong sagot ay Mali!");
         }
 
         Thread a = new Thread(()->{
