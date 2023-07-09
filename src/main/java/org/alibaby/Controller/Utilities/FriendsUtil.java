@@ -86,7 +86,7 @@ public class FriendsUtil {
         }
 
         if (new_friend==0){
-            Kislap.kislapSendMessage(this.db, this.currentUser, "Walang makakalandian");
+            Kislap.kislapSendMessage(this.db, this.currentUser, "Walang Kaibigan.");
 
         } else {
             Kislap.kislapConnect(this.db, this.currentUser, new_friend);

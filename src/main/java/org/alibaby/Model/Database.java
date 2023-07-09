@@ -10,8 +10,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.net.URI;
 
-import org.alibaby.Playground.DBWrite;
-
 public class Database {
     public Firestore db;
     
@@ -29,15 +27,6 @@ public class Database {
             db = FirestoreClient.getFirestore();
 
         } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    public void fill(){
-        DBWrite Test = new DBWrite(db);
-        try {
-            Test.prepareExamples();
-        } catch (Exception e) {
             e.printStackTrace();
         }
     }

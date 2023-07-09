@@ -1,6 +1,4 @@
-package org.alibaby.Playground;
-
-import org.alibaby.Model.Question;
+package org.alibaby.Model;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

@@ -16,7 +16,7 @@ javafx {
     modules = [ 'javafx.controls' , 'javafx.fxml', 'javafx.graphics']
 }
 
-mainClassName = "org.alibaby.Controller.Main"
+mainClassName = "org.alibaby.View.Main"
 
 dependencies {
     implementation('org.controlsfx:controlsfx:11.1.2')
@@ -46,7 +46,7 @@ dependencies {
 
 tasks.withType(JavaExec) {
     classpath = sourceSets.main.runtimeClasspath    
-    mainClassName = "org.alibaby.Controller.Main"
+    mainClassName = "org.alibaby.View.Main"
     jvmArgs = ['--module-path', classpath.asPath, '--add-modules', 'javafx.controls,javafx.fxml,javafx.graphics']
 }
 

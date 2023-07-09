@@ -97,7 +97,7 @@ public class Kislap {
     }
 
     public static void kislapConnect(Firestore db, int currentUser, int kausap){
-        String messageBody = "Mag-landian kayong dalawa";
+        String messageBody = "Kayo ay mag-usap!";
         int from = kausap;
         int to = currentUser;
 

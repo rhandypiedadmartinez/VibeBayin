@@ -5,9 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.alibaby.Controller.LoginController;
 
-public class Login extends Application {
-
+public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Load the FXML file
@@ -27,8 +27,7 @@ public class Login extends Application {
         primaryStage.setTitle("Login Application");
         primaryStage.show();
     }
-
     public static void main(String[] args) {
-        launch(args);
+        Application.launch(Main.class, args);
     }
 }

@@ -1,4 +1,4 @@
-package org.alibaby.View;
+package org.alibaby.Controller;
 
 
 
@@ -9,9 +9,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import org.alibaby.Model.Database;
-import org.alibaby.Model.NameGenerator;
 import org.alibaby.Model.User;
-import org.alibaby.Controller.Main;
+import org.alibaby.View.VibeBayinMain2;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.List;
@@ -51,8 +50,8 @@ public class LoginController {
         // Create a reference to the "all_users" collection
         CollectionReference usersCollection = db.collection("all_users");
 
-        // Query the collection to find a user with the given email
-        Query query = usersCollection.whereEqualTo("email", username);
+        // Query the collection to find a user with the given username
+        Query query = usersCollection.whereEqualTo("name", username);
         ApiFuture<QuerySnapshot> querySnapshot = query.get();
 
         try {
@@ -63,10 +62,10 @@ public class LoginController {
                 lblStatus.setText("User not found.");
                 return;
             }
-
             // Assuming the email is unique, there should be only one document
             DocumentSnapshot document = documents.get(0);
             User user = document.toObject(User.class);
+
             // Validate the password
             if (verifyPassword(password, user.getEncryptedPassword(password, user.password_salt))) {
                 lblStatus.setText("Login Successful.");
@@ -91,8 +90,6 @@ public class LoginController {
         User user = new User();
 
         int last = user.getNumberOfUSers(db);
-        String randomName = NameGenerator.generateRandomName();
-
         // Generate a salt
         String salt = BCrypt.gensalt();
         String ii = String.format("%05d", last);
@@ -101,7 +98,7 @@ public class LoginController {
         // Encrypt the password
         String encryptedPassword = user.encryptPassword(password, salt);
 
-        User data = new User(last, randomName, encryptedPassword, false, salt, username.replace(" ", "").toLowerCase()+"@gmail.com");
+        User data = new User(last, username, encryptedPassword, false, salt, username.replace(" ", "").toLowerCase()+"@gmail.com");
 
         ApiFuture<WriteResult> writeResult = addedDocRef.set(data);
 

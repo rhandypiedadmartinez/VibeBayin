@@ -6,38 +6,22 @@ import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.font.TextAttribute;
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
+import org.alibaby.Controller.UserOptions;
 import org.alibaby.Controller.Utilities.BaybayinUtil;
-import org.alibaby.Model.City;
-import org.alibaby.Model.Database;
-import org.alibaby.Model.Message;
-import org.alibaby.Model.MessageListener;
-import org.alibaby.Playground.*;
+import org.alibaby.Model.*;
 
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.DocumentChange;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.EventListener;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.FirestoreException;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.annotations.Nullable;
 
 public class InnerChatBoxPane {
