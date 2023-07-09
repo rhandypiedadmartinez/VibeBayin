@@ -50,7 +50,7 @@ public class UserOptions implements ActionListener {
         
         GridBagConstraints constraints = new GridBagConstraints();
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        constraints.insets = new Insets(5, 5, 5, 5);
+        constraints.insets = new Insets(1, 1, 1, 1);
 
         // First label
         JLabel label1 = new JLabel();
@@ -68,6 +68,9 @@ public class UserOptions implements ActionListener {
         constraints.gridy = 2;
         constraints.gridwidth = 1;
         button1.addActionListener(this);
+        button1.setBackground(Color.RED);
+        button1.setForeground(Color.WHITE);
+
         panel.add(button1, constraints);
 
         button2 = new JButton();
@@ -75,6 +78,7 @@ public class UserOptions implements ActionListener {
         constraints.gridx = 1;
         constraints.gridy = 2;
         button2.addActionListener(this);
+        button2.setBackground(Color.GREEN);
         
         panel.add(button2, constraints);
 
@@ -82,6 +86,9 @@ public class UserOptions implements ActionListener {
         button3.setText("Kumaibigan");
         constraints.gridx = 2;
         constraints.gridy = 2;
+        button3.setBackground(Color.BLUE);
+        button3.setForeground(Color.WHITE);
+
         button3.addActionListener(this);
         
         panel.add(button3, constraints);
@@ -118,19 +125,19 @@ public class UserOptions implements ActionListener {
         });
 
         if (command.equals("Matuto")){
-            
+
             int from = 0;
             int to = this.currentUser;
 
             String messageBody = "https://www.baybayin.com/";
             Timestamp timestamp = Timestamp.now();
-            
+
             Message message = new Message(from, to, messageBody, timestamp);
             ApiFuture<WriteResult> future = db.collection("all_messages").document(timestamp.toString()).set(message);
 
             b.start();
         }
-        
+
         if (command.equals("Magsulit")){
             Thread a = new Thread(()->{
                 try {
